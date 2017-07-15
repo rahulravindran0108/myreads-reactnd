@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
+import BookShelf from './BookShelf'
 
 class SearchBook extends Component {
     state = {
@@ -57,7 +58,7 @@ class SearchBook extends Component {
     }
     render() {
         let currentBooks = this.state.currentBooks
-
+        let books = this.state.books
         return (
             <div className="search-books">
                 <div className="search-books-bar">
@@ -70,45 +71,9 @@ class SearchBook extends Component {
                             onChange={(event) => this.onQueryChange(event.target.value)} />
                     </div>
                 </div>
-                <div className="search-books-results">
-                    <ol className="books-grid">
-                        {this.state.books.map((book) => (
-                            <li key={book.id}>
-                                <div className="book-top">
-                                    {book.imageLinks ? <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.smallThumbnail}")`}}></div> :
-                                    <div className="book-cover" style={{ width: 128, height: 193 }}></div>}
-                                    
-                                        <div className="book-shelf-changer">
-                                            {currentBooks.has(book.id) ? 
-                                                   <select value={currentBooks.get(book.id)} onChange={(event) => this.onShelfChange(book, event.target.value)}>
-                                                        <option value="none" disabled>Move to...</option>
-                                                        <option value="currentlyReading">Currently Reading</option>
-                                                        <option value="wantToRead">Want to Read</option>
-                                                        <option value="read">Read</option>
-                                                        <option value="none">None</option>
-                                                    </select> 
-                                                :
-                                                <select value="none" onChange={(event) => this.onShelfChange(book, event.target.value)}>
-                                                    <option value="none" disabled>Move to...</option>
-                                                    <option value="currentlyReading">Currently Reading</option>
-                                                    <option value="wantToRead">Want to Read</option>
-                                                    <option value="read">Read</option>
-                                                    <option value="none">None</option>
-                                                </select>
-                                            }
-                                            
-                                        </div>
-                                    </div>
-                                {book.title.length > 20 ? <div className="book-title">{book.title.substring(0,20) + ".."}</div> :
-                                    <div className="book-title">{book.title}</div>
-                                }
-                                {book.authors && (
-                                    <div className="book-authors">{book.authors.join(", ").length > 20 ? book.authors.join(", ").substring(0, 20) + ".." : book.authors.join(", ")}</div>
-                                )}
-                            </li>
-                        ))}
-                    </ol>
-                </div>
+                <BookShelf books={books} onShelfChange={this.onShelfChange} currentBooks={currentBooks}
+                    customClassName="search-books-results" />
+                
             </div>
         )
     }
