@@ -1,8 +1,8 @@
-import React from 'react'
-import { Route } from 'react-router-dom'
-import './App.css'
-import ListBooks from './ListBooks'
-import SearchBook from './SearchBook'
+import React from "react";
+import { Route } from "react-router-dom";
+import "./App.css";
+import ListBooks from "./ListBooks";
+import SearchBook from "./SearchBook";
 
 class BooksApp extends React.Component {
   render() {
@@ -11,8 +11,8 @@ class BooksApp extends React.Component {
         <Route exact path="/" component={ListBooks} />
         <Route path="/search" component={SearchBook} />
       </div>
-    )
+    );
   }
 }
 
-export default BooksApp
+export default BooksApp;
